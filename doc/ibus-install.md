@@ -31,8 +31,14 @@ Check that it worked: `ibus list-engine | grep -c Hold` should print `17`
 
 **3. Add the input source.**
 
-1. Open **Settings → Keyboard**. If Settings was already open, close it and
-   open it again first; it only reads the list of engines when it starts.
+1. Stop any running copy of Settings, because it keeps running in the
+   background after its window closes and won't see the new engine:
+
+   ```sh
+   pkill -f gnome-control-center
+   ```
+
+   Then open **Settings → Keyboard**.
 2. Under **Input Sources**, click **+ Add Input Source**.
 3. Click **⋮** at the bottom of the language list, type `press` in the search
    box, and choose the entry for your keyboard, e.g.
@@ -104,8 +110,9 @@ ibus restart
 1. Open **Settings → Keyboard → Input Sources → Add Input Source**.
 2. Click **⋮** at the bottom of the list, search for `press`, and choose the
    entry for your keyboard layout, e.g. **English (US, Press and Hold)** or
-   **German (Press and Hold)**. (If Settings was already open before
-   `ibus restart`, close and reopen it first.)
+   **German (Press and Hold)**. (If the entries are missing, run
+   `pkill -f gnome-control-center` and open Settings again: it keeps running
+   in the background with the old list.)
 3. Switch to it with Super+Space or the keyboard menu in the top bar. Remove
    the plain "English (US)" source if you only want this one.
 
@@ -209,5 +216,5 @@ RUST_LOG=debug ibus-daemon -rxv
 ```
 
 If the "(Press and Hold)" entries do not show up, check that IBus sees it with
-`ibus list-engine | grep hold`. If it is listed, reopen your settings app; if
-not, run `ibus write-cache && ibus restart`, then log out and in again.
+`ibus list-engine | grep hold`. If it is listed, run `pkill -f gnome-control-center`
+and open Settings again; if not, run `ibus write-cache && ibus restart`, then log out and in again.
