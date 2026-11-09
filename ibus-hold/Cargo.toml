@@ -1,6 +1,6 @@
 [package]
 name = "ibus-hold"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 rust-version = "1.85"
 license = "LGPL-2.1-or-later OR GPL-3.0-or-later"

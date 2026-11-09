@@ -5,7 +5,7 @@
   <name>io.github.geosp.IBusHold</name>
   <description>Press-and-hold accent picker</description>
   <exec>/usr/libexec/ibus-engine-hold --ibus</exec>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <author>geosp</author>
   <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
   <homepage>https://github.com/geosp/ibus-hold</homepage>
