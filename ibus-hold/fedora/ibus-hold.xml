@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- install to: /usr/share/ibus/component/ibus-hold.xml -->
+<component>
+  <!-- must match BUS_NAME in src/main.rs -->
+  <name>io.github.geosp.IBusHold</name>
+  <description>Press-and-hold accent picker</description>
+  <exec>/usr/libexec/ibus-engine-hold --ibus</exec>
+  <version>0.1.0</version>
+  <author>geosp</author>
+  <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+  <homepage>https://github.com/geosp/ibus-hold</homepage>
+  <textdomain>ibus-hold</textdomain>
+
+  <engines>
+    <engine>
+      <!-- must match ENGINE_NAME in src/engine.rs -->
+      <name>hold</name>
+      <language>en</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>us</layout>
+      <longname>English (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+  </engines>
+</component>

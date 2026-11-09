@@ -1,0 +1,28 @@
+[package]
+name = "librush"
+version = "0.3.0"
+edition = "2024"
+license = "LGPL-2.1-or-later OR GPL-3.0-or-later"
+
+authors = ["secext2022 <secext2022@outlook.com>", "geosp"]
+description = "Write ibus input method engines in pure rust, without GObject"
+repository = "https://github.com/geosp/ibus-hold"
+readme = "../README.md"
+keywords = ["ibus", "input-method"]
+categories = ["accessibility", "api-bindings", "localization"]
+
+[dependencies]
+zbus = { version = "^5.18.0", default-features = false }
+arbitrary-int = "^2.1.1"
+bitbybit = "^2.0.0"
+xkeysym = "^0.2.1"
+log = "^0.4"
+
+[dev-dependencies]
+tokio = { version = "^1.53.0", features = ["rt-multi-thread", "macros", "time"] }
+
+[features]
+default = ["tokio"]
+# choose the async runtime used by zbus
+tokio = ["zbus/tokio"]
+async-io = ["zbus/async-io"]

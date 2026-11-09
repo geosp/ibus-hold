@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - run: cargo fmt --all --check
+      - run: cargo build --workspace --locked --verbose
+      - run: cargo test --workspace --locked --verbose
+      - run: cargo clippy --workspace --all-targets --locked
+      - run: cargo doc -p librush --no-deps --locked
+
+  # build the ibus-hold RPM on Fedora
+  rpm:
+    runs-on: ubuntu-latest
+    container: fedora:44
+    steps:
+      - run: dnf install -y git rpm-build rpmdevtools cargo rust
+      - uses: actions/checkout@v7
+      - run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          rpmdev-setuptree
+          git archive --prefix=ibus-hold-0.1.0/ \
+            -o ~/rpmbuild/SOURCES/ibus-hold-0.1.0.tar.gz HEAD
+          rpmbuild -bb ibus-hold/fedora/ibus-hold.spec
+          cp ~/rpmbuild/RPMS/x86_64/ibus-hold-*.rpm .
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ibus-hold-fc44-x86_64-rpm
+          path: ibus-hold-*.rpm
