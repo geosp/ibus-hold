@@ -1,15 +1,16 @@
 [package]
-name = "librush"
+name = "ibus-engine"
 version = "0.3.0"
 edition = "2024"
+rust-version = "1.85"
 license = "LGPL-2.1-or-later OR GPL-3.0-or-later"
 
 authors = ["secext2022 <secext2022@outlook.com>", "geosp"]
 description = "Write ibus input method engines in pure rust, without GObject"
 repository = "https://github.com/geosp/ibus-hold"
-readme = "../README.md"
-keywords = ["ibus", "input-method"]
-categories = ["accessibility", "api-bindings", "localization"]
+readme = "README.md"
+keywords = ["ibus", "input-method", "ime", "linux", "dbus"]
+categories = ["accessibility", "api-bindings", "localization", "os::linux-apis"]
 
 [dependencies]
 zbus = { version = "^5.18.0", default-features = false }

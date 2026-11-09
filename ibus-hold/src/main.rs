@@ -8,7 +8,7 @@
 //! `--print-component-xml` prints that file (generated from `layouts.rs`).
 use std::error::Error;
 
-use librush::ibus::{IBus, get_ibus_addr};
+use ibus_engine::ibus::{IBus, get_ibus_addr};
 use log::info;
 
 mod accents;

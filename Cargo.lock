@@ -444,11 +444,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
+name = "ibus-engine"
+version = "0.3.0"
+dependencies = [
+ "arbitrary-int",
+ "bitbybit",
+ "log",
+ "tokio",
+ "xkeysym",
+ "zbus",
+]
+
+[[package]]
 name = "ibus-hold"
 version = "0.1.1"
 dependencies = [
  "env_logger",
- "librush",
+ "ibus-engine",
  "log",
  "tokio",
  "xkeysym",
@@ -522,18 +534,6 @@ name = "libc"
 version = "0.2.191"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "65cd87c9a6d60536580b316ad985726104730a5151c99845f2490428ef91240a"
-
-[[package]]
-name = "librush"
-version = "0.3.0"
-dependencies = [
- "arbitrary-int",
- "bitbybit",
- "log",
- "tokio",
- "xkeysym",
- "zbus",
-]
 
 [[package]]
 name = "linux-raw-sys"

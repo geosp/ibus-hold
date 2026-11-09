@@ -9,13 +9,13 @@ accent picker built with it, for Linux desktops that use IBus (such as GNOME).
 
 This repository is a Cargo workspace with two crates:
 
-- [`librush/`](librush/): a library for writing
+- [`ibus-engine/`](ibus-engine/): a library for writing
   [IBus](https://github.com/ibus/ibus) input method engines in pure rust. It
   talks to ibus-daemon directly over D-Bus (via
   [zbus](https://github.com/dbus2/zbus/)), without GObject or C bindings.
-  See the crate docs (`cargo doc -p librush --open`) for an example.
+  See the crate docs (`cargo doc -p ibus-engine --open`) for an example.
 - [`ibus-hold/`](ibus-hold/): a macOS-style **press-and-hold** accent picker
-  built on librush. Hold `e` to get `è é ê ë ē ė ę`, then press a number to
+  built on ibus-engine. Hold `e` to get `è é ê ë ē ė ę`, then press a number to
   pick one. A normal tap types the letter as usual.
 
 ## Install
@@ -52,7 +52,7 @@ other desktops, configuration, and troubleshooting.
 
 ```toml
 [dependencies]
-librush = { git = "https://github.com/geosp/ibus-hold" }
+ibus-engine = "0.3"
 ```
 
 Features:
@@ -66,8 +66,7 @@ then call `IBus::new`. `IBusEngineBackend` lets your engine commit text, set
 preedit/auxiliary text, and show a `LookupTable` (candidate popup).
 `ibus-hold/src/engine.rs` is a complete real-world example.
 
-Note: this library is used via git (or a path dependency); it is not published
-on crates.io.
+API docs: <https://docs.rs/ibus-engine>.
 
 ## Development
 
@@ -90,6 +89,14 @@ git tag v0.1.1 && git push origin v0.1.1
 
 The release workflow builds the `.rpm` and `.deb` packages for x86_64 and
 ARM64 and attaches them to a GitHub Release.
+
+To publish the crates to crates.io (once per release, after `cargo login`),
+publish the library first if its version changed, then the engine:
+
+```sh
+cargo publish -p ibus-engine
+cargo publish -p ibus-hold
+```
 
 Keep dependencies current: run `cargo update` after new rustc releases or
 important security updates, then rebuild and retest.
@@ -131,5 +138,5 @@ important security updates, then rebuild and retest.
 This repository is released under: `LGPL-2.1-or-later` or `GPL-3.0-or-later`, at
 your option.
 
-The `librush` library is based on code from
+The `ibus-engine` library is based on code from
 [fm-elpac/librush](https://github.com/fm-elpac/librush) by secext2022.

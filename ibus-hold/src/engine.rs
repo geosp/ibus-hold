@@ -3,7 +3,7 @@
 use std::sync::Arc;
 use std::time::Duration;
 
-use librush::ibus::{
+use ibus_engine::ibus::{
     IBusEngine, IBusEngineBackend, IBusFactory, IBusModifierState, IBusPreeditFocusMode,
     LookupTable,
 };

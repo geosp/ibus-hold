@@ -2,18 +2,21 @@
 name = "ibus-hold"
 version = "0.1.1"
 edition = "2024"
+rust-version = "1.85"
 license = "LGPL-2.1-or-later OR GPL-3.0-or-later"
 authors = ["geosp"]
 description = "macOS-style press-and-hold accent picker for ibus"
 repository = "https://github.com/geosp/ibus-hold"
-publish = false
+readme = "../README.md"
+keywords = ["ibus", "input-method", "accents", "gnome", "linux"]
+categories = ["accessibility", "localization", "os::linux-apis"]
 
 [[bin]]
 name = "ibus-engine-hold"
 path = "src/main.rs"
 
 [dependencies]
-librush = { path = "../librush" }
+ibus-engine = { path = "../ibus-engine", version = "0.3.0" }
 tokio = { version = "^1.53.0", features = ["rt-multi-thread", "macros", "time", "sync"] }
 zbus = { version = "^5.18.0", default-features = false, features = ["tokio"] }
 xkeysym = "^0.2.1"

@@ -16,7 +16,7 @@
 //! An engine that captures nothing (every key passes through to the app):
 //!
 //! ```no_run
-//! use librush::ibus::{IBus, IBusEngine, IBusFactory, get_ibus_addr};
+//! use ibus_engine::ibus::{IBus, IBusEngine, IBusFactory, get_ibus_addr};
 //!
 //! #[derive(Debug, Clone)]
 //! struct MyEngine;

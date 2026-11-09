@@ -21,7 +21,7 @@ jobs:
       - run: cargo build --workspace --locked --verbose
       - run: cargo test --workspace --locked --verbose
       - run: cargo clippy --workspace --all-targets --locked
-      - run: cargo doc -p librush --no-deps --locked
+      - run: cargo doc -p ibus-engine --no-deps --locked
 
   # build the ibus-hold RPM on Fedora
   rpm:

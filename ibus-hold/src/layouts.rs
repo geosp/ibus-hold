@@ -167,7 +167,13 @@ mod test {
 
     #[test]
     fn install_guide_lists_every_layout() {
-        let doc = include_str!("../../doc/ibus-install.md");
+        // The guide lives outside this crate, so it is missing from the
+        // published crate: only check it in a checkout of the repository.
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../doc/ibus-install.md");
+        let Ok(doc) = std::fs::read_to_string(path) else {
+            eprintln!("skipping: {path} not found (not a repository checkout)");
+            return;
+        };
         for l in LAYOUTS {
             let row = format!("| {} | `{}` | `{}` |", l.longname, l.engine, l.xkb);
             assert!(doc.contains(&row), "doc/ibus-install.md is missing: {row}");

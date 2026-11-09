@@ -21,7 +21,7 @@ Requires:       ibus
 %description
 Hold a letter such as "e" to get a popup with accented variants
 (é è ê ë ...), then press 1-9 to pick one. A normal tap types the
-letter as usual. Built on the librush ibus library.
+letter as usual. Built on the ibus-engine Rust library.
 
 %prep
 %autosetup -n ibus-hold-%{version}
