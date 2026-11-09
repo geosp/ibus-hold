@@ -14,10 +14,10 @@ already includes IBus.
 `$(uname -m)` picks x86_64 or aarch64 for your machine:
 
 ```sh
-sudo dnf install https://github.com/geosp/ibus-hold/releases/download/v0.1.0/ibus-hold-0.1.0-1.fc44.$(uname -m).rpm
+sudo dnf install https://github.com/geosp/ibus-hold/releases/download/v0.1.1/ibus-hold-0.1.1-1.fc44.$(uname -m).rpm
 ```
 
-(For a newer release, change both `0.1.0`s to its version, as listed on the
+(For a newer release, change both `0.1.1`s to its version, as listed on the
 [Releases page](https://github.com/geosp/ibus-hold/releases).)
 
 **2. Restart IBus** so it loads the new engine:
@@ -97,9 +97,9 @@ Some distributions keep IBus engines in `/usr/lib/ibus/` instead of
 ```sh
 sudo dnf install rpm-build rpmdevtools cargo rust
 rpmdev-setuptree
-git archive --prefix=ibus-hold-0.1.0/ -o ~/rpmbuild/SOURCES/ibus-hold-0.1.0.tar.gz HEAD
+git archive --prefix=ibus-hold-0.1.1/ -o ~/rpmbuild/SOURCES/ibus-hold-0.1.1.tar.gz HEAD
 rpmbuild -bb ibus-hold/fedora/ibus-hold.spec
-sudo dnf install ~/rpmbuild/RPMS/x86_64/ibus-hold-0.1.0-1.fc*.x86_64.rpm
+sudo dnf install ~/rpmbuild/RPMS/x86_64/ibus-hold-0.1.1-1.fc*.x86_64.rpm
 ibus restart
 ```
 

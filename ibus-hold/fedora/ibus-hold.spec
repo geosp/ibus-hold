@@ -1,5 +1,5 @@
 # Build:
-#   git archive --prefix=ibus-hold-0.1.0/ -o ~/rpmbuild/SOURCES/ibus-hold-0.1.0.tar.gz HEAD
+#   git archive --prefix=ibus-hold-0.1.1/ -o ~/rpmbuild/SOURCES/ibus-hold-0.1.1.tar.gz HEAD
 #   rpmbuild -bb ibus-hold/fedora/ibus-hold.spec
 # (needs network access: cargo downloads the crates listed in Cargo.lock)
 
@@ -7,7 +7,7 @@
 %global debug_package %{nil}
 
 Name:           ibus-hold
-Version:        0.1.0
+Version:        0.1.1
 Release:        1%{?dist}
 Summary:        Press-and-hold accent picker for ibus (macOS style)
 License:        LGPL-2.1-or-later OR GPL-3.0-or-later
@@ -42,5 +42,8 @@ install -Dm644 ibus-hold/data/ibus-hold.xml %{buildroot}%{_datadir}/ibus/compone
 %{_datadir}/ibus/component/ibus-hold.xml
 
 %changelog
+* Mon Nov 09 2026 geosp <gffajardo@gmail.com> - 0.1.1-1
+- Fix input source names in GNOME Settings (no repeated language)
+
 * Mon Nov 09 2026 geosp <gffajardo@gmail.com> - 0.1.0-1
 - First package

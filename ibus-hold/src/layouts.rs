@@ -14,7 +14,19 @@ pub struct Layout {
     pub engine: &'static str,
     pub xkb: &'static str,
     pub language: &'static str,
+    /// Name as shown in GNOME Settings: `Language (details)`
     pub longname: &'static str,
+}
+
+impl Layout {
+    /// The `<longname>` for the component XML: only the `details` part,
+    /// because GNOME Settings shows ibus engines as `Language (longname)`.
+    pub fn ibus_longname(&self) -> &'static str {
+        self.longname
+            .split_once(" (")
+            .and_then(|(_, rest)| rest.strip_suffix(')'))
+            .unwrap_or(self.longname)
+    }
 }
 
 const fn l(
@@ -87,7 +99,7 @@ pub fn component_xml(bus_name: &str, version: &str) -> String {
             engine = l.engine,
             language = l.language,
             xkb = l.xkb,
-            longname = l.longname,
+            longname = l.ibus_longname(),
         ));
     }
     format!(
@@ -127,6 +139,20 @@ mod test {
         assert!(is_engine("hold"));
         assert!(is_engine("hold:de"));
         assert!(!is_engine("hold:xx"));
+    }
+
+    #[test]
+    fn longnames_have_language_and_details() {
+        for l in LAYOUTS {
+            let details = l.ibus_longname();
+            assert_ne!(
+                details, l.longname,
+                "{}: expected `Language (details)`",
+                l.engine
+            );
+            assert!(details.ends_with("Press and Hold"), "{}", l.engine);
+        }
+        assert_eq!(LAYOUTS[0].ibus_longname(), "US, Press and Hold");
     }
 
     #[test]
