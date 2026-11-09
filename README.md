@@ -1,6 +1,6 @@
 # ibus-hold
 
-<https://github.com/geosp/ibus-hold>
+<https://crates.io/crates/ibus-hold>
 
 ![CI](https://github.com/geosp/ibus-hold/actions/workflows/ci.yml/badge.svg)
 
