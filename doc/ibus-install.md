@@ -5,16 +5,64 @@ GNOME has IBus built in, so it is the easiest setup. Tested on Fedora 44
 Workstation (GNOME); other distributions and desktops should work but are
 untested.
 
-## Requirements
+## Fedora Workstation: step by step
+
+These steps take about two minutes. You need Fedora Workstation (GNOME), which
+already includes IBus.
+
+**1. Install the package.** `dnf` can download it straight from the release;
+`$(uname -m)` picks x86_64 or aarch64 for your machine:
+
+```sh
+sudo dnf install https://github.com/geosp/ibus-hold/releases/download/v0.1.0/ibus-hold-0.1.0-1.fc44.$(uname -m).rpm
+```
+
+(For a newer release, change both `0.1.0`s to its version, as listed on the
+[Releases page](https://github.com/geosp/ibus-hold/releases).)
+
+**2. Restart IBus** so it loads the new engine:
+
+```sh
+ibus restart
+```
+
+Check that it worked: `ibus list-engine | grep -c Hold` should print `17`
+(one entry per keyboard layout).
+
+**3. Add the input source.**
+
+1. Open **Settings → Keyboard**. If Settings was already open, close it and
+   open it again first; it only reads the list of engines when it starts.
+2. Under **Input Sources**, click **+ Add Input Source**.
+3. Click **⋮** at the bottom of the language list, type `press` in the search
+   box, and choose the entry for your keyboard, e.g.
+   **English (US, Press and Hold)**. Click **Add**.
+4. Optional: remove your old plain layout (e.g. "English (US)") with its **⋮ →
+   Remove** menu, so Press and Hold is always active.
+
+**4. Switch to it** with **Super+Space** (or click the keyboard indicator in the
+top bar and pick it). The indicator shows **Hå** when it is active.
+
+**5. Try it.** In any text field, hold `e` for half a second, then press `2` to
+type `é`. A normal tap still types `e`. See [Use it](#use-it) for all keys.
+
+**To uninstall:** remove the input source in Settings, then run
+`sudo dnf remove ibus-hold && ibus restart`.
+
+If something doesn't work, see [Troubleshooting](#troubleshooting).
+
+## Other distributions
+
+### Requirements
 
 - **IBus.** Preinstalled on GNOME desktops (Fedora Workstation, Ubuntu, ...).
   Check with `ibus version`. If it is missing:
   - Fedora: `sudo dnf install ibus`
   - Debian / Ubuntu: `sudo apt install ibus`
   - Arch: `sudo pacman -S ibus`
-- **A Rust toolchain** to build it: <https://rustup.rs>
+- **A Rust toolchain**, only if you build from source: <https://rustup.rs>
 
-## Install a release package (easiest)
+### Install a release package
 
 Download the package for your system from the
 [Releases page](https://github.com/geosp/ibus-hold/releases) (x86_64/amd64 or
@@ -25,7 +73,7 @@ aarch64/arm64), then:
 
 Then run `ibus restart` and [enable it](#enable-it).
 
-## Build from source
+### Build from source
 
 ```sh
 cargo build --release -p ibus-hold
@@ -38,7 +86,7 @@ Some distributions keep IBus engines in `/usr/lib/ibus/` instead of
 `/usr/libexec/`. Either location works, as long as the `<exec>` path in
 `ibus-hold.xml` matches where you installed the program.
 
-### Fedora: build your own RPM
+### Build your own Fedora RPM
 
 ```sh
 sudo dnf install rpm-build rpmdevtools cargo rust
