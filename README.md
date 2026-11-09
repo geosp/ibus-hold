@@ -5,7 +5,7 @@
 ![CI](https://github.com/geosp/ibus-hold/actions/workflows/ci.yml/badge.svg)
 
 Write IBus input method engines in Rust, and a macOS-style press-and-hold
-accent picker built with it, for Fedora Linux.
+accent picker built with it, for Linux desktops that use IBus (such as GNOME).
 
 This repository is a Cargo workspace with two crates:
 
@@ -18,20 +18,23 @@ This repository is a Cargo workspace with two crates:
   built on librush. Hold `e` to get `è é ê ë ē ė ę`, then press a number to
   pick one. A normal tap types the letter as usual.
 
-## Quick start (Fedora)
+## Quick start
 
 ```sh
 cargo build --release -p ibus-hold
 sudo install -Dm755 target/release/ibus-engine-hold /usr/libexec/ibus-engine-hold
-sudo install -Dm644 ibus-hold/fedora/ibus-hold.xml /usr/share/ibus/component/ibus-hold.xml
+sudo install -Dm644 ibus-hold/data/ibus-hold.xml /usr/share/ibus/component/ibus-hold.xml
 ibus restart
 ```
 
-Then go to **Settings → Keyboard → Input Sources → Add → English → English
-(Press and Hold)**.
+On GNOME, then go to **Settings → Keyboard → Input Sources → Add → English →
+English (Press and Hold)**.
 
-See [doc/ibus-install.md](doc/ibus-install.md) for RPM packaging,
-configuration, and troubleshooting.
+Requirements: IBus (preinstalled on GNOME desktops) and a Rust toolchain
+(<https://rustup.rs>).
+
+See [doc/ibus-install.md](doc/ibus-install.md) for other desktops, a Fedora
+RPM package, configuration, and troubleshooting.
 
 ## Using the library in another project
 
@@ -62,7 +65,8 @@ cargo test --workspace
 cargo clippy --workspace --all-targets
 ```
 
-Tested with rustc 1.99.1, IBus 1.5.34, and Fedora 44 Workstation (GNOME).
+Tested with rustc 1.99.1 and IBus 1.5.34 on Fedora 44 Workstation (GNOME).
+Other distributions and desktops with IBus should work but are untested.
 
 Keep dependencies current: run `cargo update` after new rustc releases or
 important security updates, then rebuild and retest.

@@ -34,7 +34,7 @@ cargo test --release --locked -p ibus-hold
 
 %install
 install -Dm755 target/release/ibus-engine-hold %{buildroot}%{_libexecdir}/ibus-engine-hold
-install -Dm644 ibus-hold/fedora/ibus-hold.xml %{buildroot}%{_datadir}/ibus/component/ibus-hold.xml
+install -Dm644 ibus-hold/data/ibus-hold.xml %{buildroot}%{_datadir}/ibus/component/ibus-hold.xml
 
 %files
 %license LICENSE

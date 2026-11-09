@@ -4,7 +4,7 @@
 //! (or use the arrow keys and Enter) to pick one. A normal tap types the
 //! letter as usual.
 //!
-//! ibus-daemon starts this program (see `fedora/ibus-hold.xml`) with `--ibus`.
+//! ibus-daemon starts this program (see `data/ibus-hold.xml`) with `--ibus`.
 use std::error::Error;
 
 use librush::ibus::{IBus, get_ibus_addr};
