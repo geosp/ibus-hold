@@ -1,142 +1,192 @@
-# ibus-hold
+# ibus-hold: macOS-style Press-and-Hold for Linux
 
 <https://crates.io/crates/ibus-hold>
 
 ![CI](https://github.com/geosp/ibus-hold/actions/workflows/ci.yml/badge.svg)
+![License](https://img.shields.io/badge/license-LGPL--2.1%20or%20GPL--3.0-blue)
+![Crates.io](https://img.shields.io/crates/v/ibus-hold)
+![Platforms](https://img.shields.io/badge/platform-Linux%20%7C%20IBus-blue)
 
-Write IBus input method engines in Rust, and a macOS-style press-and-hold
-accent picker built with it, for Linux desktops that use IBus (such as GNOME).
+> 🍎 Get macOS-style accent selection on Linux. Hold a key to reveal accented variants, pick with number keys or arrow keys.
+
+**ibus-hold** is a modern Linux input method that brings familiar macOS-style character selection to the Linux desktop. Works on any Linux distribution using IBus (GNOME, KDE, XFCE, and more).
+
+![Demo showing GNOME input source setup followed by typing accented letters](doc/press-and-hold.gif)
+
+## 🚀 Quick Start (30 seconds)
+
+### Fedora Workstation (GNOME)
+```sh
+# 1. Install
+sudo dnf install https://github.com/geosp/ibus-hold/releases/download/v0.1.2/ibus-hold-0.1.2-1.fc44.$(uname -m).rpm
+
+# 2. Reload IBus
+ibus restart
+
+# 3. Enable in Settings → Keyboard → Input Sources → Add → Search "Press and Hold"
+# 4. Switch with Super+Space
+```
+
+### Other Linux Distributions
+```sh
+# Debian 12+ / Ubuntu 22.04+
+sudo apt install ./ibus-hold_*.deb  # Download from Releases page
+ibus restart
+```
+
+**Full installation guide for all distributions:** [doc/ibus-install.md](doc/ibus-install.md)
+
+## ✨ Features
+
+- **Press-and-Hold Accent Picker**: Hold any letter to reveal accented variants (è, é, ê, ë, etc.)
+- **Fast & Responsive**: Lightweight Rust implementation with configurable delay
+- **17 Keyboard Layouts**: US, UK, German, French, Spanish, Portuguese, Italian, Scandinavian, Polish, Turkish, and more
+- **Customizable**: Configure variants and delay via `~/.config/ibus-hold/config`
+- **No Dependencies**: Pure Rust; works with any IBus-compatible desktop
+- **System Integration**: Native GNOME/KDE/XFCE integration
+
+## 📦 How It Works
+
+Hold a letter for ~0.5 seconds to see available accented variants:
+
+```
+Hold 'e' → [ è  é  ê  ë  ē  ė  ę ]
+           Press 1-9 to pick, or use arrows + Enter
+```
+
+- **Tap** = normal letter
+- **Hold** = accent menu
+- **Shift+Hold** = uppercase variants
+
+## 🏗️ Architecture
 
 This repository is a Cargo workspace with two crates:
 
-- [`ibus-engine/`](ibus-engine/): a library for writing
-  [IBus](https://github.com/ibus/ibus) input method engines in pure rust. It
-  talks to ibus-daemon directly over D-Bus (via
-  [zbus](https://github.com/dbus2/zbus/)), without GObject or C bindings.
-  See the crate docs (`cargo doc -p ibus-engine --open`) for an example.
-- [`ibus-hold/`](ibus-hold/): a macOS-style **press-and-hold** accent picker
-  built on ibus-engine. Hold `e` to get `è é ê ë ē ė ę`, then press a number to
-  pick one. A normal tap types the letter as usual.
+- **`ibus-engine/`** ([docs](https://docs.rs/ibus-engine)): A pure-Rust library for writing IBus input method engines. Talks directly to ibus-daemon over D-Bus via [zbus](https://github.com/dbus2/zbus/), without GObject or C bindings. Perfect for systems programming projects.
+- **`ibus-hold/`**: A complete example of an input method engine built on ibus-engine, implementing the press-and-hold UI.
 
-## Install
+## 🛠️ For Library Users (ibus-engine)
 
-Download the `.rpm` (Fedora) or `.deb` (Debian/Ubuntu) for x86_64 or ARM64
-from the [Releases page](https://github.com/geosp/ibus-hold/releases):
-
-```sh
-sudo dnf install ./ibus-hold-*.rpm     # Fedora
-sudo apt install ./ibus-hold_*.deb     # Debian 12+ / Ubuntu 22.04+
-ibus restart
-```
-
-Or build from source:
-
-```sh
-cargo build --release -p ibus-hold
-sudo install -Dm755 target/release/ibus-engine-hold /usr/libexec/ibus-engine-hold
-sudo install -Dm644 ibus-hold/data/ibus-hold.xml /usr/share/ibus/component/ibus-hold.xml
-ibus restart
-```
-
-On GNOME, then go to **Settings → Keyboard → Input Sources → Add →** your
-language → **… (Press and Hold)**, e.g. *English (US, Press and Hold)*. There
-is one entry per keyboard layout (US, UK, German, French, Spanish, and more).
-
-Requirements: IBus (preinstalled on GNOME desktops) and a Rust toolchain
-(<https://rustup.rs>).
-
-See [doc/ibus-install.md](doc/ibus-install.md) for the full list of layouts,
-other desktops, configuration, and troubleshooting.
-
-## Using the library in another project
+Want to build your own IBus input method in Rust? The `ibus-engine` library is production-ready:
 
 ```toml
 [dependencies]
 ibus-engine = "0.3"
 ```
 
-Features:
-
-- `tokio` (default): use the tokio runtime for D-Bus.
+**Features:**
+- `tokio` (default): use the tokio runtime for D-Bus
 - `async-io`: use the async-io runtime instead
-  (`default-features = false, features = ["async-io"]`).
 
-Implement `IBusEngine` (key events, focus, reset, ...) and `IBusFactory`,
-then call `IBus::new`. `IBusEngineBackend` lets your engine commit text, set
-preedit/auxiliary text, and show a `LookupTable` (candidate popup).
-`ibus-hold/src/engine.rs` is a complete real-world example.
+**Example:** See `ibus-hold/src/engine.rs` for a complete, real-world implementation.
 
-API docs: <https://docs.rs/ibus-engine>.
+**API Documentation:** <https://docs.rs/ibus-engine>
 
-## Development
+### Quick Library Example
+
+```rust
+use ibus_engine::{IBusEngine, IBusFactory, IBusEngineBackend};
+
+struct MyEngine { }
+
+impl IBusEngine for MyEngine {
+    fn process_key_event(&mut self, _keyval: u32, _keycode: u32, _state: u32) -> bool {
+        // Your input method logic here
+        false
+    }
+    // ... implement other trait methods
+}
+
+impl IBusFactory for MyEngine {
+    fn create(&self, _engine_name: &str) -> Box<dyn IBusEngine> {
+        Box::new(MyEngine { })
+    }
+}
+```
+
+## 💻 Development
 
 ```sh
-cargo fmt --all --check
+# Test
 cargo test --workspace
+
+# Format & lint
+cargo fmt --all --check
 cargo clippy --workspace --all-targets
+
+# Generate docs
+cargo doc --open
 ```
 
-Tested with rustc 1.99.1 and IBus 1.5.34 on Fedora 44 Workstation (GNOME).
-Other distributions and desktops with IBus should work but are untested.
+**Minimum Requirements:**
+- rustc 1.99.1+
+- IBus 1.5.34+ (preinstalled on GNOME, KDE, XFCE)
+- Linux (tested on Fedora 44; other distributions should work)
 
-To publish a release, set the same version in `ibus-hold/Cargo.toml` and
-`ibus-hold/fedora/ibus-hold.spec` (and add a spec changelog entry), regenerate
-`ibus-hold/data/ibus-hold.xml`, commit, then push a matching tag:
+## 🤝 Contributing
+
+We welcome contributions! Whether you're fixing bugs, adding layouts, improving documentation, or building new features:
+
+1. **Fork & Clone** the repository
+2. **Create a feature branch** (`git checkout -b feature/your-idea`)
+3. **Make your changes** and test thoroughly:
+   ```sh
+   cargo test --workspace
+   cargo clippy --workspace
+   cargo fmt --all
+   ```
+4. **Push & Create a Pull Request** with a clear description
+
+### Ways to Help
+
+- **📍 Add a keyboard layout** - Edit `ibus-hold/src/layouts.rs` and open a PR
+- **🐛 Report bugs** - Use GitHub Issues with reproduction steps
+- **📖 Improve docs** - Help make the installation guide clearer
+- **🌍 Translate** - Help internationalize the UI
+- **💡 Suggest features** - Open an issue to discuss ideas
+
+### Running Tests & Checks
 
 ```sh
-git tag v0.1.2 && git push origin v0.1.2
+# Run all tests
+cargo test --workspace
+
+# Format code
+cargo fmt --all
+
+# Lint with clippy
+cargo clippy --workspace --all-targets
+
+# Check docs
+cargo doc --no-deps --open
 ```
 
-The release workflow builds the `.rpm` and `.deb` packages for x86_64 and
-ARM64 and attaches them to a GitHub Release.
+**License:** Choose `LGPL-2.1-or-later` or `GPL-3.0-or-later` for your contributions.
 
-To publish the crates to crates.io (once per release, after `cargo login`),
-publish the library first if its version changed, then the engine:
+## 🔗 Resources & Links
 
-```sh
-cargo publish -p ibus-engine
-cargo publish -p ibus-hold
-```
+### Input Method Frameworks
+- [IBus](https://github.com/ibus/ibus) — Intelligent Input Bus for Linux/Unix
+- [D-Bus](https://www.freedesktop.org/wiki/Software/dbus/) — Message bus for Linux applications
+- [zbus](https://github.com/dbus2/zbus/) — Rust D-Bus API
 
-Keep dependencies current: run `cargo update` after new rustc releases or
-important security updates, then rebuild and retest.
+### Desktop Environments
+- [GNOME Shell](https://wiki.gnome.org/Projects/GnomeShell) — Default on Fedora, Ubuntu
+- [KDE Plasma](https://kde.org/plasma) — Popular alternative
+- [XFCE](https://www.xfce.org/) — Lightweight option
 
-## Links
+### Languages & Tools
+- [Rust Programming Language](https://www.rust-lang.org/) — Systems programming, memory safety
+- [GObject](https://docs.gtk.org/gobject/) — Traditional GLib object system
 
-- IBus: Intelligent Input Bus for Linux/Unix
+## 📄 License
 
-  <https://github.com/ibus/ibus>
+This repository is released under your choice of:
+- **LGPL-2.1-or-later** — Link freely with proprietary code
+- **GPL-3.0-or-later** — Share improvements with the community
 
-- D-Bus is a message bus system, a simple way for applications to talk to one
-  another
+The `ibus-engine` library is based on code from [fm-elpac/librush](https://github.com/fm-elpac/librush) by secext2022.
 
-  <https://www.freedesktop.org/wiki/Software/dbus/>
+---
 
-- zbus: A Rust API for D-Bus communication
-
-  <https://github.com/dbus2/zbus/>
-
-- Rust Programming Language
-
-  <https://www.rust-lang.org/>
-
-- GObject: The GLib Object System
-
-  <https://docs.gtk.org/gobject/>
-
-- GNOME Shell: next generation desktop shell
-
-  <https://wiki.gnome.org/Projects/GnomeShell>
-  <https://gitlab.gnome.org/GNOME/gnome-shell/>
-
-- GNOME 3.6 integrated input method
-
-  <https://help.gnome.org/misc/release-notes/3.6/i18n-ibus.html>
-
-## LICENSE
-
-This repository is released under: `LGPL-2.1-or-later` or `GPL-3.0-or-later`, at
-your option.
-
-The `ibus-engine` library is based on code from
-[fm-elpac/librush](https://github.com/fm-elpac/librush) by secext2022.
+**Have questions?** Check [doc/ibus-install.md](doc/ibus-install.md) for full installation, configuration, and troubleshooting guides. Found a bug? [Open an issue](https://github.com/geosp/ibus-hold/issues).

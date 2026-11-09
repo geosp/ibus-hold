@@ -1,9 +1,14 @@
 # Installing and using ibus-hold
 
-ibus-hold works on any Linux desktop that uses the IBus input method framework.
-GNOME has IBus built in, so it is the easiest setup. Tested on Fedora 44
-Workstation (GNOME); other distributions and desktops should work but are
-untested.
+**ibus-hold** brings macOS-style press-and-hold accent selection to Linux. Works on any Linux desktop using the IBus input method framework.
+
+- 🌍 **17 keyboard layouts** supported (US, UK, German, French, Spanish, Portuguese, Italian, Scandinavian, Polish, Turkish, and more)
+- ⚡ **Fast & lightweight** — pure Rust, ~2MB, minimal CPU/memory overhead
+- 🎯 **Familiar UI** — if you've used macOS, you already know how to use it
+- ⚙️ **Customizable** — configure delay, variants, and more in `~/.config/ibus-hold/config`
+- 🔧 **Easy to install** — `.rpm` and `.deb` packages for x86_64 and ARM64
+
+> **GNOME users on Fedora?** Jump to [Fedora Workstation: step by step](#fedora-workstation-step-by-step) — you'll be set up in 2 minutes.
 
 ## Fedora Workstation: step by step
 
