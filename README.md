@@ -9,7 +9,7 @@
 
 > 🍎 Get macOS-style accent selection on Linux. Hold a key to reveal accented variants, pick with number keys or arrow keys.
 
-**ibus-hold** is a modern Linux input method that brings familiar macOS-style character selection to the Linux desktop. Works on any Linux distribution using IBus (GNOME, KDE, XFCE, and more).
+**ibus-hold** is a Linux input method that brings familiar macOS-style character selection to the desktop. It requires IBus and has been tested on Fedora 44 Workstation with GNOME; other distributions and IBus desktops may work but are not yet tested.
 
 ![Demo showing GNOME input source setup followed by typing accented letters](doc/press-and-hold.gif)
 
@@ -42,8 +42,8 @@ ibus restart
 - **Fast & Responsive**: Lightweight Rust implementation with configurable delay
 - **17 Keyboard Layouts**: US, UK, German, French, Spanish, Portuguese, Italian, Scandinavian, Polish, Turkish, and more
 - **Customizable**: Configure variants and delay via `~/.config/ibus-hold/config`
-- **No Dependencies**: Pure Rust; works with any IBus-compatible desktop
-- **System Integration**: Native GNOME/KDE/XFCE integration
+- **Pure Rust**: No GObject or C bindings; IBus is required
+- **Desktop support**: Tested with GNOME on Fedora 44 Workstation; other IBus desktops are untested
 
 ## 📦 How It Works
 
@@ -119,9 +119,9 @@ cargo doc --open
 ```
 
 **Minimum Requirements:**
-- rustc 1.99.1+
-- IBus 1.5.34+ (preinstalled on GNOME, KDE, XFCE)
-- Linux (tested on Fedora 44; other distributions should work)
+- IBus 1.5.34+ (required to run; commonly included with GNOME)
+- Linux (tested on Fedora 44 Workstation with GNOME; other distributions and desktops are untested)
+- rustc 1.99.1+ only if building from source
 
 ## 🤝 Contributing
 

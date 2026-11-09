@@ -1,9 +1,9 @@
 # Installing and using ibus-hold
 
-**ibus-hold** brings macOS-style press-and-hold accent selection to Linux. Works on any Linux desktop using the IBus input method framework.
+**ibus-hold** brings macOS-style press-and-hold accent selection to Linux desktops using the IBus input method framework. It has been tested on Fedora 44 Workstation with GNOME; other distributions and desktops may work but are untested.
 
 - 🌍 **17 keyboard layouts** supported (US, UK, German, French, Spanish, Portuguese, Italian, Scandinavian, Polish, Turkish, and more)
-- ⚡ **Fast & lightweight** — pure Rust, ~2MB, minimal CPU/memory overhead
+- ⚡ **Lightweight** — Rust implementation without GObject or C bindings; IBus is required
 - 🎯 **Familiar UI** — if you've used macOS, you already know how to use it
 - ⚙️ **Customizable** — configure delay, variants, and more in `~/.config/ibus-hold/config`
 - 🔧 **Easy to install** — `.rpm` and `.deb` packages for x86_64 and ARM64
