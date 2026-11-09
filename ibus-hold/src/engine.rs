@@ -178,9 +178,6 @@ impl IBusEngine for HoldEngine {
     }
 }
 
-/// Engine name, must match `<engine><name>` in the component XML.
-pub const ENGINE_NAME: &str = "hold";
-
 #[derive(Debug, Clone)]
 pub struct HoldFactory {
     config: Config,
@@ -194,7 +191,8 @@ impl HoldFactory {
 
 impl IBusFactory<HoldEngine> for HoldFactory {
     fn create_engine(&mut self, name: String) -> Result<HoldEngine, String> {
-        if name == ENGINE_NAME {
+        // every layout variant behaves the same; only GNOME's keymap differs
+        if crate::layouts::is_engine(&name) {
             Ok(HoldEngine::new(&self.config))
         } else {
             Err(format!("unknown engine: {name}"))

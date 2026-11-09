@@ -33,8 +33,9 @@ jobs:
       - run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           rpmdev-setuptree
-          git archive --prefix=ibus-hold-0.1.0/ \
-            -o ~/rpmbuild/SOURCES/ibus-hold-0.1.0.tar.gz HEAD
+          VERSION=$(sed -n 's/^Version: *//p' ibus-hold/fedora/ibus-hold.spec)
+          git archive --prefix="ibus-hold-$VERSION/" \
+            -o ~/rpmbuild/SOURCES/"ibus-hold-$VERSION.tar.gz" HEAD
           rpmbuild -bb ibus-hold/fedora/ibus-hold.spec
           cp ~/rpmbuild/RPMS/x86_64/ibus-hold-*.rpm .
       - uses: actions/upload-artifact@v7

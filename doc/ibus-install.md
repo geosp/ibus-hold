@@ -14,7 +14,18 @@ untested.
   - Arch: `sudo pacman -S ibus`
 - **A Rust toolchain** to build it: <https://rustup.rs>
 
-## Install
+## Install a release package (easiest)
+
+Download the package for your system from the
+[Releases page](https://github.com/geosp/ibus-hold/releases) (x86_64/amd64 or
+aarch64/arm64), then:
+
+- Fedora: `sudo dnf install ./ibus-hold-*.rpm`
+- Debian 12+ / Ubuntu 22.04+: `sudo apt install ./ibus-hold_*.deb`
+
+Then run `ibus restart` and [enable it](#enable-it).
+
+## Build from source
 
 ```sh
 cargo build --release -p ibus-hold
@@ -27,7 +38,7 @@ Some distributions keep IBus engines in `/usr/lib/ibus/` instead of
 `/usr/libexec/`. Either location works, as long as the `<exec>` path in
 `ibus-hold.xml` matches where you installed the program.
 
-### Fedora: build an RPM instead
+### Fedora: build your own RPM
 
 ```sh
 sudo dnf install rpm-build rpmdevtools cargo rust
@@ -43,16 +54,18 @@ ibus restart
 ### GNOME
 
 1. Open **Settings → Keyboard → Input Sources → Add Input Source**.
-2. Click **⋮** at the bottom of the list, search for `press`, and choose
-   **English (Press and Hold)**. (If Settings was already open before
+2. Click **⋮** at the bottom of the list, search for `press`, and choose the
+   entry for your keyboard layout, e.g. **English (US, Press and Hold)** or
+   **German (Press and Hold)**. (If Settings was already open before
    `ibus restart`, close and reopen it first.)
 3. Switch to it with Super+Space or the keyboard menu in the top bar. Remove
    the plain "English (US)" source if you only want this one.
 
-Or from a terminal (this replaces your current input sources):
+Or from a terminal (this replaces your current input sources; use the engine
+name for your layout from the table below):
 
 ```sh
-gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'hold')]"
+gsettings set org.gnome.desktop.input-sources sources "[('ibus', 'hold')]"
 ```
 
 ### Other desktops (untested)
@@ -63,11 +76,40 @@ gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 
    - Other desktops / X11: start `ibus-daemon -drx` at login and set
      `GTK_IM_MODULE=ibus`, `QT_IM_MODULE=ibus`, `XMODIFIERS=@im=ibus` in your
      environment.
-2. Run `ibus-setup`, open the **Input Method** tab, and add
-   **English → English (Press and Hold)**.
+2. Run `ibus-setup`, open the **Input Method** tab, and add the
+   **(Press and Hold)** entry for your layout.
 
-The engine uses the `us` keyboard layout. For another layout, change
-`<layout>` in `ibus-hold.xml`, reinstall it, and run `ibus restart`.
+## Keyboard layouts
+
+Each entry loads its own keyboard layout, so pick the one matching your
+keyboard. The popup works the same in all of them.
+
+| Entry | Engine name | Layout |
+|---|---|---|
+| English (US, Press and Hold) | `hold` | `us` |
+| English (UK, Press and Hold) | `hold:gb` | `gb` |
+| German (Press and Hold) | `hold:de` | `de` |
+| German (Switzerland, Press and Hold) | `hold:ch` | `ch` |
+| French (Press and Hold) | `hold:fr` | `fr` |
+| French (Canada, Press and Hold) | `hold:ca` | `ca` |
+| Spanish (Press and Hold) | `hold:es` | `es` |
+| Spanish (Latin American, Press and Hold) | `hold:latam` | `latam` |
+| Portuguese (Press and Hold) | `hold:pt` | `pt` |
+| Portuguese (Brazil, Press and Hold) | `hold:br` | `br` |
+| Italian (Press and Hold) | `hold:it` | `it` |
+| Swedish (Press and Hold) | `hold:se` | `se` |
+| Norwegian (Press and Hold) | `hold:no` | `no` |
+| Danish (Press and Hold) | `hold:dk` | `dk` |
+| Finnish (Press and Hold) | `hold:fi` | `fi` |
+| Polish (Press and Hold) | `hold:pl` | `pl` |
+| Turkish (Press and Hold) | `hold:tr` | `tr` |
+
+Missing your layout? Add a line to `LAYOUTS` in `ibus-hold/src/layouts.rs`,
+regenerate the component file, and open a pull request:
+
+```sh
+cargo run -p ibus-hold -- --print-component-xml > ibus-hold/data/ibus-hold.xml
+```
 
 ## Use it
 
@@ -106,7 +148,8 @@ sudo rm /usr/libexec/ibus-engine-hold /usr/share/ibus/component/ibus-hold.xml
 ibus restart
 ```
 
-(or `sudo dnf remove ibus-hold` if you installed the RPM), then remove the
+(or `sudo dnf remove ibus-hold` / `sudo apt remove ibus-hold` if you
+installed a package), then remove the
 input source in your desktop settings.
 
 ## Troubleshooting
@@ -117,6 +160,6 @@ Run IBus in the foreground with debug logs:
 RUST_LOG=debug ibus-daemon -rxv
 ```
 
-If "English (Press and Hold)" does not show up, check that IBus sees it with
+If the "(Press and Hold)" entries do not show up, check that IBus sees it with
 `ibus list-engine | grep hold`. If it is listed, reopen your settings app; if
 not, run `ibus write-cache && ibus restart`, then log out and in again.

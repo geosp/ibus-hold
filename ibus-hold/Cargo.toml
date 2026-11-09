@@ -19,3 +19,21 @@ zbus = { version = "^5.18.0", default-features = false, features = ["tokio"] }
 xkeysym = "^0.2.1"
 log = "^0.4"
 env_logger = "^0.11"
+
+# Debian/Ubuntu package, built with `cargo deb -p ibus-hold`
+[package.metadata.deb]
+maintainer = "geosp <gffajardo@gmail.com>"
+copyright = "secext2022, geosp"
+license-file = ["../LICENSE", "0"]
+depends = "$auto, ibus"
+section = "utils"
+priority = "optional"
+extended-description = """\
+Hold a letter such as "e" to get a popup with accented variants \
+(é è ê ë ...), then press 1-9 to pick one. A normal tap types the letter \
+as usual. After installing, run `ibus restart` and add "Press and Hold" \
+in Settings > Keyboard > Input Sources."""
+assets = [
+    ["target/release/ibus-engine-hold", "usr/libexec/", "755"],
+    ["data/ibus-hold.xml", "usr/share/ibus/component/", "644"],
+]

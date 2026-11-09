@@ -5,6 +5,7 @@
 //! letter as usual.
 //!
 //! ibus-daemon starts this program (see `data/ibus-hold.xml`) with `--ibus`.
+//! `--print-component-xml` prints that file (generated from `layouts.rs`).
 use std::error::Error;
 
 use librush::ibus::{IBus, get_ibus_addr};
@@ -12,6 +13,7 @@ use log::info;
 
 mod accents;
 mod engine;
+mod layouts;
 mod state;
 
 /// D-Bus name, must match `<component><name>` in the component XML.
@@ -23,6 +25,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     if std::env::args().any(|a| a == "--version") {
         println!("ibus-engine-hold {}", env!("CARGO_PKG_VERSION"));
+        return Ok(());
+    }
+    if std::env::args().any(|a| a == "--print-component-xml") {
+        print!(
+            "{}",
+            layouts::component_xml(BUS_NAME, env!("CARGO_PKG_VERSION"))
+        );
         return Ok(());
     }
     // other arguments (`--ibus` from ibus-daemon) need no handling

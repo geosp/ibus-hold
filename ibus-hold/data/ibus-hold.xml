@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- install to: /usr/share/ibus/component/ibus-hold.xml -->
+<!-- Generated from ibus-hold/src/layouts.rs (see the print-component-xml option); do not edit by hand. -->
+<!-- Install to: /usr/share/ibus/component/ibus-hold.xml -->
 <component>
-  <!-- must match BUS_NAME in src/main.rs -->
   <name>io.github.geosp.IBusHold</name>
   <description>Press-and-hold accent picker</description>
   <exec>/usr/libexec/ibus-engine-hold --ibus</exec>
@@ -13,13 +13,188 @@
 
   <engines>
     <engine>
-      <!-- must match ENGINE_NAME in src/engine.rs -->
       <name>hold</name>
       <language>en</language>
       <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
       <author>geosp</author>
       <layout>us</layout>
-      <longname>English (Press and Hold)</longname>
+      <longname>English (US, Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:gb</name>
+      <language>en</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>gb</layout>
+      <longname>English (UK, Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:de</name>
+      <language>de</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>de</layout>
+      <longname>German (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:ch</name>
+      <language>de</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>ch</layout>
+      <longname>German (Switzerland, Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:fr</name>
+      <language>fr</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>fr</layout>
+      <longname>French (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:ca</name>
+      <language>fr</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>ca</layout>
+      <longname>French (Canada, Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:es</name>
+      <language>es</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>es</layout>
+      <longname>Spanish (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:latam</name>
+      <language>es</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>latam</layout>
+      <longname>Spanish (Latin American, Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:pt</name>
+      <language>pt</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>pt</layout>
+      <longname>Portuguese (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:br</name>
+      <language>pt</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>br</layout>
+      <longname>Portuguese (Brazil, Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:it</name>
+      <language>it</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>it</layout>
+      <longname>Italian (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:se</name>
+      <language>sv</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>se</layout>
+      <longname>Swedish (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:no</name>
+      <language>nb</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>no</layout>
+      <longname>Norwegian (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:dk</name>
+      <language>da</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>dk</layout>
+      <longname>Danish (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:fi</name>
+      <language>fi</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>fi</layout>
+      <longname>Finnish (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:pl</name>
+      <language>pl</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>pl</layout>
+      <longname>Polish (Press and Hold)</longname>
+      <description>Hold a letter to pick an accented variant, like on macOS</description>
+      <rank>0</rank>
+      <symbol>Hå</symbol>
+    </engine>
+    <engine>
+      <name>hold:tr</name>
+      <language>tr</language>
+      <license>LGPL-2.1-or-later OR GPL-3.0-or-later</license>
+      <author>geosp</author>
+      <layout>tr</layout>
+      <longname>Turkish (Press and Hold)</longname>
       <description>Hold a letter to pick an accented variant, like on macOS</description>
       <rank>0</rank>
       <symbol>Hå</symbol>

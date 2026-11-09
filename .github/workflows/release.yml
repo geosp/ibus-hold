@@ -1,0 +1,119 @@
+# Publish a release: push a tag that matches the ibus-hold version, e.g.
+#   git tag v0.1.0 && git push origin v0.1.0
+# Builds .rpm (Fedora) and .deb (Debian/Ubuntu) packages for x86_64 and
+# aarch64, then creates a GitHub Release with them attached.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: v
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          crate=$(sed -n 's/^version = "\(.*\)"/\1/p' ibus-hold/Cargo.toml | head -1)
+          spec=$(sed -n 's/^Version: *//p' ibus-hold/fedora/ibus-hold.spec)
+          echo "tag=$tag crate=$crate spec=$spec"
+          if [ "$tag" != "$crate" ] || [ "$tag" != "$spec" ]; then
+            echo "::error::tag v$tag must match ibus-hold/Cargo.toml ($crate) and ibus-hold.spec ($spec)"
+            exit 1
+          fi
+          echo "version=$tag" >> "$GITHUB_OUTPUT"
+
+  rpm:
+    needs: check-version
+    strategy:
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    container: fedora:44
+    env:
+      VERSION: ${{ needs.check-version.outputs.version }}
+    steps:
+      - run: dnf install -y git rpm-build rpmdevtools cargo rust
+      - uses: actions/checkout@v7
+      - run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          rpmdev-setuptree
+          git archive --prefix="ibus-hold-$VERSION/" \
+            -o ~/rpmbuild/SOURCES/"ibus-hold-$VERSION.tar.gz" HEAD
+          rpmbuild -bb ibus-hold/fedora/ibus-hold.spec
+          mkdir dist && cp ~/rpmbuild/RPMS/*/ibus-hold-*.rpm dist/
+      - uses: actions/upload-artifact@v7
+        with:
+          name: rpm-${{ matrix.runner }}
+          path: dist/*
+
+  deb:
+    needs: check-version
+    strategy:
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    # build on the oldest supported base, so the package also runs on
+    # Ubuntu 22.04+ and Debian 12+
+    container: ubuntu:22.04
+    steps:
+      - run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            ca-certificates curl git build-essential dpkg-dev
+          curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
+      - uses: actions/checkout@v7
+      - run: |
+          . "$HOME/.cargo/env"
+          cargo install cargo-deb --locked
+          cargo deb -p ibus-hold --locked
+          mkdir dist && cp target/debian/*.deb dist/
+      - uses: actions/upload-artifact@v7
+        with:
+          name: deb-${{ matrix.runner }}
+          path: dist/*
+
+  release:
+    needs: [rpm, deb]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v7
+        with:
+          path: dist
+          merge-multiple: true
+      - run: |
+          ls -l dist
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --title "ibus-hold $GITHUB_REF_NAME" \
+            --notes-file - <<'EOF'
+          ## Install
+
+          **Fedora** (x86_64 or aarch64):
+          ```sh
+          sudo dnf install ./ibus-hold-*.rpm
+          ```
+
+          **Debian 12+ / Ubuntu 22.04+** (amd64 or arm64):
+          ```sh
+          sudo apt install ./ibus-hold_*.deb
+          ```
+
+          Then run `ibus restart`, and on GNOME add an input source:
+          **Settings → Keyboard → Input Sources → Add →** your language →
+          **… (Press and Hold)**.
+
+          See the [install guide](https://github.com/geosp/ibus-hold/blob/main/doc/ibus-install.md) for other desktops and configuration.
+          EOF
+        env:
+          GH_TOKEN: ${{ github.token }}

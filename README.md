@@ -18,7 +18,18 @@ This repository is a Cargo workspace with two crates:
   built on librush. Hold `e` to get `è é ê ë ē ė ę`, then press a number to
   pick one. A normal tap types the letter as usual.
 
-## Quick start
+## Install
+
+Download the `.rpm` (Fedora) or `.deb` (Debian/Ubuntu) for x86_64 or ARM64
+from the [Releases page](https://github.com/geosp/ibus-hold/releases):
+
+```sh
+sudo dnf install ./ibus-hold-*.rpm     # Fedora
+sudo apt install ./ibus-hold_*.deb     # Debian 12+ / Ubuntu 22.04+
+ibus restart
+```
+
+Or build from source:
 
 ```sh
 cargo build --release -p ibus-hold
@@ -27,14 +38,15 @@ sudo install -Dm644 ibus-hold/data/ibus-hold.xml /usr/share/ibus/component/ibus-
 ibus restart
 ```
 
-On GNOME, then go to **Settings → Keyboard → Input Sources → Add → English →
-English (Press and Hold)**.
+On GNOME, then go to **Settings → Keyboard → Input Sources → Add →** your
+language → **… (Press and Hold)**, e.g. *English (US, Press and Hold)*. There
+is one entry per keyboard layout (US, UK, German, French, Spanish, and more).
 
 Requirements: IBus (preinstalled on GNOME desktops) and a Rust toolchain
 (<https://rustup.rs>).
 
-See [doc/ibus-install.md](doc/ibus-install.md) for other desktops, a Fedora
-RPM package, configuration, and troubleshooting.
+See [doc/ibus-install.md](doc/ibus-install.md) for the full list of layouts,
+other desktops, configuration, and troubleshooting.
 
 ## Using the library in another project
 
@@ -67,6 +79,17 @@ cargo clippy --workspace --all-targets
 
 Tested with rustc 1.99.1 and IBus 1.5.34 on Fedora 44 Workstation (GNOME).
 Other distributions and desktops with IBus should work but are untested.
+
+To publish a release, set the same version in `ibus-hold/Cargo.toml` and
+`ibus-hold/fedora/ibus-hold.spec` (and add a spec changelog entry), regenerate
+`ibus-hold/data/ibus-hold.xml`, commit, then push a matching tag:
+
+```sh
+git tag v0.1.0 && git push origin v0.1.0
+```
+
+The release workflow builds the `.rpm` and `.deb` packages for x86_64 and
+ARM64 and attaches them to a GitHub Release.
 
 Keep dependencies current: run `cargo update` after new rustc releases or
 important security updates, then rebuild and retest.
