@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.ibus-hold"
+          path="/org/gnome/shell/extensions/ibus-hold/">
+    <key name="engine" type="s">
+      <default>''</default>
+      <summary>Press and Hold engine</summary>
+      <description>IBus engine to use, e.g. "hold" (US) or "hold:de". Empty means match the first keyboard layout.</description>
+    </key>
+    <key name="auto-enable" type="b">
+      <default>true</default>
+      <summary>Add the input source automatically</summary>
+      <description>Add Press and Hold to the input sources and switch to it when it is missing.</description>
+    </key>
+  </schema>
+</schemalist>

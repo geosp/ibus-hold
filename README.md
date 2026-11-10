@@ -36,6 +36,12 @@ ibus restart
 
 **Full installation guide for all distributions:** [doc/ibus-install.md](doc/ibus-install.md)
 
+### Optional: GNOME Shell extension
+
+A companion extension adds a **Press and Hold** toggle to Quick Settings, adds
+the input source for you, and gives you a preferences window for the layout and
+hold delay. It needs the package above. See [gnome-extension/](gnome-extension/README.md).
+
 ## ✨ Features
 
 - **Press-and-Hold Accent Picker**: Hold any letter to reveal accented variants (è, é, ê, ë, etc.)
@@ -64,6 +70,8 @@ This repository is a Cargo workspace with two crates:
 
 - **`ibus-engine/`** ([docs](https://docs.rs/ibus-engine)): A pure-Rust library for writing IBus input method engines. Talks directly to ibus-daemon over D-Bus via [zbus](https://github.com/dbus2/zbus/), without GObject or C bindings. Perfect for systems programming projects.
 - **`ibus-hold/`**: A complete example of an input method engine built on ibus-engine, implementing the press-and-hold UI.
+
+`gnome-extension/` holds the optional GNOME Shell companion extension (JavaScript).
 
 ## 🛠️ For Library Users (ibus-engine)
 

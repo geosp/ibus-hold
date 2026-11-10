@@ -1,0 +1,9 @@
+{
+  "uuid": "ibus-hold@geosp.github.io",
+  "name": "Press and Hold Accents",
+  "description": "Quick Settings toggle and preferences for ibus-hold, the macOS-style press-and-hold accent picker.\n\nHold a letter to choose an accented variant (é, ñ, ü, ...). Requires the ibus-hold package: https://github.com/geosp/ibus-hold",
+  "shell-version": ["50"],
+  "url": "https://github.com/geosp/ibus-hold",
+  "settings-schema": "org.gnome.shell.extensions.ibus-hold",
+  "version-name": "1.0"
+}
