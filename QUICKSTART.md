@@ -8,7 +8,7 @@ The easiest installation:
 
 ```sh
 # 1. Download and install
-sudo dnf install https://github.com/geosp/ibus-hold/releases/download/v0.1.2/ibus-hold-0.1.2-1.fc44.$(uname -m).rpm
+sudo dnf install https://github.com/geosp/ibus-hold/releases/download/v0.1.3/ibus-hold-0.1.3-1.fc44.$(uname -m).rpm
 
 # 2. Reload IBus
 ibus restart
