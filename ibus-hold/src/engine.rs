@@ -4,8 +4,8 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use ibus_engine::ibus::{
-    IBusEngine, IBusEngineBackend, IBusFactory, IBusModifierState, IBusPreeditFocusMode,
-    LookupTable,
+    IBusEngine, IBusEngineBackend, IBusFactory, IBusModifierState, IBusOrientation,
+    IBusPreeditFocusMode, LookupTable,
 };
 use log::{debug, warn};
 use tokio::sync::Mutex;
@@ -89,6 +89,7 @@ async fn emit(se: &SignalEmitter<'_>, action: Action) {
         Action::ShowTable { candidates, cursor } => {
             match LookupTable::new(candidates, MAX_CANDIDATES as u32, true, true) {
                 Ok(mut table) => {
+                    table.orientation = IBusOrientation::Horizontal;
                     table.set_cursor_pos(cursor as i64);
                     HoldEngine::update_lookup_table(se, &table, true).await
                 }

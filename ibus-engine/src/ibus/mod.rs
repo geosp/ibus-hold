@@ -16,5 +16,5 @@ pub use engine::{IBusEngine, IBusEngineBackend, IBusPreeditFocusMode};
 pub use error::IBusErr;
 pub use factory::IBusFactory;
 pub use ibus_serde::IBusModifierState;
-pub use lookup_table::LookupTable;
+pub use lookup_table::{IBusOrientation, LookupTable};
 pub use xkeysym;
