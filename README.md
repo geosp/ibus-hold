@@ -42,6 +42,8 @@ A companion extension adds a **Press and Hold** toggle to Quick Settings, adds
 the input source for you, and gives you a preferences window for the layout and
 hold delay. It needs the package above. See [gnome-extension/](gnome-extension/README.md).
 
+![Press and Hold Accents preferences and the enabled extension in GNOME Extensions](gnome-extension/screenshots/extension-settings.png)
+
 ## ✨ Features
 
 - **Press-and-Hold Accent Picker**: Hold any letter to reveal accented variants (è, é, ê, ë, etc.)
