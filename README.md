@@ -11,7 +11,7 @@
 
 **ibus-hold** is a Linux input method that brings familiar macOS-style character selection to the desktop. It requires IBus and has been tested on Fedora 44 Workstation with GNOME; other distributions and IBus desktops may work but are not yet tested.
 
-![Demo showing GNOME input source setup followed by typing accented letters](doc/press-and-hold.gif)
+![Demo showing GNOME input source setup and the horizontal press-and-hold accent picker](doc/press-and-hold.gif)
 
 ## 🚀 Quick Start (30 seconds)
 
